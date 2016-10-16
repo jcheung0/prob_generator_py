@@ -32,14 +32,15 @@ language_ext = {
 	"perl": "pl",
 	"r":"r",
 	"lua":"lua",
-	"julia":"jl"
+	"julia":"jl",
+	"brainfuck":"bf",
 }
 
 parser = argparse.ArgumentParser(description='build a problem set for each problem')
 parser.add_argument('-n,--name',type=str,
                    help='name for file',required=True, dest="name")
 
-parser.add_argument('-l,--language', help='sum the integers (default: find the max)',dest="lang")
+parser.add_argument('-l,--language', help='sum the integers (default: find the max)',dest="lang",nargs="+")
 parser.add_argument('-d, --dir',help='specify output directory', dest="directory")
 
 args = parser.parse_args()
@@ -51,7 +52,7 @@ def render_template(name,context):
 		pass
 
 
-def create_form(name,language):
+def create_form(name,language,directory="."):
 	ext = language_ext[language]
 	print ("creating {0}.{1}".format(name,ext))
 	file = open("{0}/{1}.{2}".format(directory,name,ext),"w")
@@ -65,21 +66,33 @@ def create_form(name,language):
 
 		
 def create_problems(name,language="all"):
-	if(language == "all"):
-		for i in language_ext:
-			print(i)
-			create_form(name,i)
+	
+	if(type(language) == list):
+		for i in language:
+			if (i in language_ext):
+				ext = language_ext[i]
+				if(ext):
+					create_form(name,i)
+				else:
+					print("{0} doesn't exists".format(i))
+			else:
+				print("{0} doesn't exists".format(i))
 	else:
-		ext = language_ext[language]
-		if(ext):
-			create_form(name,language)
+		if(language == "all"):
+			for i in language_ext:
+				print(i)
+				create_form(name,i)
 		else:
-			print("{0} doesn't exists".format(language))
+			ext = language_ext[language]
+			if(ext):
+				create_form(name,language)
+			else:
+				print("{0} doesn't exists".format(language))
 
-directory = args.directory;
+#directory = args.directory;
 
-if(directory and not os.path.exists(directory)):
-	os.mkdir(directory)
+#if(directory and not os.path.exists(directory)):
+#	os.mkdir(directory)
 
 
 
