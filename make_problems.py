@@ -2,8 +2,9 @@
 import sys
 from jinja2 import Environment, FileSystemLoader,Template
 import os
+import json
 import argparse
-
+from pprint import pprint
 PATH = os.path.dirname(os.path.abspath(__file__))
 
 TEMPLATE_ENVIRONMENT = Environment(
@@ -11,6 +12,14 @@ TEMPLATE_ENVIRONMENT = Environment(
     loader=FileSystemLoader(os.path.join(PATH, 'lang_templates')),
     trim_blocks=False)
 
+#ext_file = open("lang_ext.json")
+#data = json.load(ext_file)
+
+with open('lang_ext.json') as ext_file:
+	language_ext = json.load(ext_file)
+
+
+'''
 language_ext = {
 	'c++':"cpp",
 	"java":"java",
@@ -35,7 +44,7 @@ language_ext = {
 	"julia":"jl",
 	"brainfuck":"bf",
 }
-
+'''
 parser = argparse.ArgumentParser(description='build a problem set for each problem')
 parser.add_argument('-n,--name',type=str,
                    help='name for file',required=True, dest="name")
@@ -95,7 +104,6 @@ def create_problems(name,language="all"):
 #	os.mkdir(directory)
 
 
-
 if __name__ == "__main__":
 	name = args.name
 	lang = args.lang
@@ -103,4 +111,3 @@ if __name__ == "__main__":
 		create_problems(name,lang)
 	else:
 		create_problems(name)
-
