@@ -20,5 +20,11 @@
 	"r":"r",
 	"lua":"lua",
 	"julia":"jl",
-	"brainfuck":"bf"
+	"brainfuck":"bf",
+	"elixir":"exs",
+	"elm":"elm",
+	"d":"d",
+	"erlang":"",
+	"kotlin":"kotlin",
+	"D":"d"
 }

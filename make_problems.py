@@ -12,45 +12,17 @@ TEMPLATE_ENVIRONMENT = Environment(
     loader=FileSystemLoader(os.path.join(PATH, 'lang_templates')),
     trim_blocks=False)
 
-#ext_file = open("lang_ext.json")
-#data = json.load(ext_file)
 
 with open('lang_ext.json') as ext_file:
 	language_ext = json.load(ext_file)
 
-
-'''
-language_ext = {
-	'c++':"cpp",
-	"java":"java",
-	"python":"py",
-	"haskell":"hs",
-	"csharp":"cs",
-	"javascript": "js",
-	"ruby": "rb",
-	"swift":"swift",
-	"c":"c",
-	"go":"go",
-	"dart":"dart",
-	"groovy":"groovy",
-	"scala":"scala",
-	"rust":"rs",
-	"typescript":"ts",
-	"coffeescript":"coffee",
-	"php":"php",
-	"perl": "pl",
-	"r":"r",
-	"lua":"lua",
-	"julia":"jl",
-	"brainfuck":"bf",
-}
-'''
 parser = argparse.ArgumentParser(description='build a problem set for each problem')
 parser.add_argument('-n,--name',type=str,
                    help='name for file',required=True, dest="name")
 
 parser.add_argument('-l,--language', help='sum the integers (default: find the max)',dest="lang",nargs="+")
 parser.add_argument('-d, --dir',help='specify output directory', dest="directory")
+parser.add_argument('-p, --project',help="make project directories", dest="project",nargs="+")
 
 args = parser.parse_args()
 
@@ -98,15 +70,17 @@ def create_problems(name,language="all"):
 			else:
 				print("{0} doesn't exists".format(language))
 
-#directory = args.directory;
-
-#if(directory and not os.path.exists(directory)):
-#	os.mkdir(directory)
-
+def create_project():
+	pass
 
 if __name__ == "__main__":
 	name = args.name
 	lang = args.lang
+	project = args.project
+
+	if(project is not None):
+		pass
+
 	if(lang is not None):
 		create_problems(name,lang)
 	else:
